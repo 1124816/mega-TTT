@@ -19,6 +19,7 @@
 
     var places = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]];
     var taken = [0,0,0,0,0,0,0,0,0];
+    var wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
     function getCursorPosition(canvas, event) {
       var rect = canvas.getBoundingClientRect();
@@ -28,7 +29,7 @@
     }
 
     function microLocation(x, y) {
-      return (y%3)+(x%3)*3;
+      return places[(Math.floor(x/3)*3)*3+Math.floor(y/3)*3][(y%3)+(x%3)*3];
     };
 
     function macroLocation(x, y) {
@@ -38,44 +39,14 @@
     function isWin() {
       x=0;
       while(x<9) {
-        y=0
-        w = [[],[],[],[],[],[],[],[]];
-        s = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-        while(y<9) {
-          w[y%3].push(places[(Math.floor(y/3)+1)*(Math.floor(x/3)+1)-1][((y%3)+1)*((x%3)+1)-1])
-          w[Math.floor(y/3)+3].push(places[(Math.floor(y/3)+1)*(Math.floor(x/3)+1)-1][((y%3)+1)*((x%3)+1)-1])
-          if(y===0||y===4||y===8) {
-            w[6].push(places[(Math.floor(y/3)+1)*(Math.floor(x/3)+1)-1][((y%3)+1)*((x%3)+1)-1])
-          };
-          if(y===2||y===4||y===6) {
-            w[7].push(places[(Math.floor(y/3)+1)*(Math.floor(x/3)+1)-1][((y%3)+1)*((x%3)+1)-1])
-          };
-
-          y+=1;
-        };
-
-          for(p in w) {
-            if(w[p] === 0) {
-              s[i][0] +=1
-            }else if(w[p] === 1) {
-              s[1] +=1
-            };
-          };
-
-          for(i in w) {
-            if(w[i][0]>2) {
-              taken[x] = 0
-            };
-            if(w[i][1]>2) {
-              taken[x] = 1
-            };
-          };
-
-	        console.log(x);
-	        console.log(y);
-          console.log(w);
-          console.log(s);
-
+        for(i in wins) {
+	    if(microLocation(x, wins[i][0]) === 1 &&  microLocation(x, wins[i][1]) === 1 &&  microLocation(x, wins[i][2]) === 1) {
+	        taken[x] = 1;
+	    };
+            if(microLocation(x, wins[i][0]) === 2 &&  microLocation(x, wins[i][1]) === 2 &&  microLocation(x, wins[i][2]) === 2) {
+	        taken[x] = 2;
+	    };	
+	};
         x+=1;
       };
       console.log(taken);
