@@ -29,29 +29,28 @@
     }
 
     function macroLocation(x, y) {
-        //console.log((x*3)%9);
-	//console.log((y)%9);
-        console.log((x*3)%9+(y)%3);
-        //console.log(Math.floor(x/3)*3);
-	console.log(Math.floor(x/3)*3+Math.floor(y/3));
-	return places[(x*3)%9+(y)%3][Math.floor(x/3)*3+Math.floor(y/3)];
+      //console.log((x%3)*3);
+      //console.log(y%3);
+      //console.log(Math.floor(x/3)*3);
+      //console.log(Math.floor(y/3));
+      return places[(x%3)*3+y%3][Math.floor(x/3)*3+Math.floor(y/3)] 
     };
 
-//    function isWin() {
-//      x=0;
-//      while(x<9) {
-//        for(i in wins) {
-//	    if(microLocation(x, wins[i][0]) === 1 &&  microLocation(x, wins[i][1]) === 1 &&  microLocation(x, wins[i][2]) === 1) {
-//	        taken[x] = 1;
-//	    };
-//            if(microLocation(x, wins[i][0]) === 2 &&  microLocation(x, wins[i][1]) === 2 &&  microLocation(x, wins[i][2]) === 2) {
-//	        taken[x] = 2;
-//	    };
-//	};
-//        x+=1;
-//      };
-//      console.log(taken);
-//    };
+    function isWin() {
+      x=0;
+      while(x<9) {
+        for(i in wins) {
+	    if(macroLocation(x, wins[i][0]) === 1 &&  macroLocation(x, wins[i][1]) === 1 &&  macroLocation(x, wins[i][2]) === 1) {
+	        taken[x] = 1;
+	    };
+            if(macroLocation(x, wins[i][0]) === 2 &&  macroLocation(x, wins[i][1]) === 2 &&  macroLocation(x, wins[i][2]) === 2) {
+	        taken[x] = 2;
+	    };
+	};
+        x+=1;
+      };
+      console.log(taken);
+    };
 
     canvas.onclick = function(event) {
       if(turn) {
@@ -121,10 +120,6 @@
       cxt.moveTo(312, 10+234);
       cxt.lineTo(312,224+234);
       cxt.moveTo(389, 10+234);
-      cxt.lineTo(389,224+234);
-      cxt.moveTo(244, 78+234);
-      cxt.lineTo(458, 78+234);
-      cxt.moveTo(244, 155+234);
       cxt.lineTo(389,224+234);
       cxt.moveTo(244, 78+234);
       cxt.lineTo(458, 78+234);
