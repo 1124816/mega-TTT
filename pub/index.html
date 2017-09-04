@@ -36,20 +36,37 @@
       return places[(x%3)*3+y%3][Math.floor(x/3)*3+Math.floor(y/3)] 
     };
 
+    function drawWin(x) {};
+
     function isWin() {
       x=0;
       while(x<9) {
+	if(taken[x]!=0) {
+            x+=1;
+	    continue;
+	};
         for(i in wins) {
 	    if(macroLocation(x, wins[i][0]) === 1 &&  macroLocation(x, wins[i][1]) === 1 &&  macroLocation(x, wins[i][2]) === 1) {
 	        taken[x] = 1;
+		drawWin(x);
 	    };
             if(macroLocation(x, wins[i][0]) === 2 &&  macroLocation(x, wins[i][1]) === 2 &&  macroLocation(x, wins[i][2]) === 2) {
 	        taken[x] = 2;
+		drawWin(x);
 	    };
 	};
         x+=1;
       };
       console.log(taken);
+      
+      for(i in wins) {
+          if(taken[wins[i][0]] === 1 &&  taken[wins[i][1]] === 1 &&  taken[wins[i][2]] === 1) {
+	      win(1);
+	  };
+          if(taken[wins[i][0]] === 2 &&  taken[wins[i][1]] === 2 &&  taken[wins[i][2]] === 2) {
+	      win(2);
+	  };
+      };
     };
 
     canvas.onclick = function(event) {
