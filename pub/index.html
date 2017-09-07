@@ -19,6 +19,7 @@
 
     var places = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]];
     var taken = [0,0,0,0,0,0,0,0,0];
+    var drawWin = [[],[],[],[],[],[],[],[]];
     var wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
     function getCursorPosition(canvas, event) {
@@ -36,7 +37,7 @@
       return places[(x%3)*3+y%3][Math.floor(x/3)*3+Math.floor(y/3)] 
     };
 
-    function drawWin(x) {};
+    function win(x) {};
 
     function isWin() {
       x=0;
@@ -47,12 +48,12 @@
 	};
         for(i in wins) {
 	    if(macroLocation(x, wins[i][0]) === 1 &&  macroLocation(x, wins[i][1]) === 1 &&  macroLocation(x, wins[i][2]) === 1) {
-	        taken[x] = 1;
-		drawWin(x);
+	        taken[x] = [1, i];
+		draw();
 	    };
             if(macroLocation(x, wins[i][0]) === 2 &&  macroLocation(x, wins[i][1]) === 2 &&  macroLocation(x, wins[i][2]) === 2) {
-	        taken[x] = 2;
-		drawWin(x);
+	        taken[x] = [2, i];
+		draw();
 	    };
 	};
         x+=1;
@@ -60,10 +61,10 @@
       console.log(taken);
       
       for(i in wins) {
-          if(taken[wins[i][0]] === 1 &&  taken[wins[i][1]] === 1 &&  taken[wins[i][2]] === 1) {
+          if(taken[wins[i][0]][0] === 1 &&  taken[wins[i][1]][0] === 1 &&  taken[wins[i][2]][0] === 1) {
 	      win(1);
 	  };
-          if(taken[wins[i][0]] === 2 &&  taken[wins[i][1]] === 2 &&  taken[wins[i][2]] === 2) {
+          if(taken[wins[i][0]][0] === 2 &&  taken[wins[i][1]][0] === 2 &&  taken[wins[i][2]][0] === 2) {
 	      win(2);
 	  };
       };
@@ -209,6 +210,13 @@
         };
         y = 0;
         x = x + 1;
+      };
+      for(let i in taken) {
+        if(taken[i]!=0) {
+          cxt.beginPath();
+	  cxt.stroke();
+	  cxt.closePath();	
+	};
       };
     };
 
